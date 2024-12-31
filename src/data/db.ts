@@ -25,18 +25,16 @@ export default class DB {
     }
 
     async execute(sql: string, values?: [...any]) {
-        logger.info(sql, values)
+        values = values?.filter(i => i);
+        logger.info(sql, values);
         return await new Promise((resolve, reject) => {
-            this.pool!.execute(sql,
-                values?.filter(i => i),
-                (err, result) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(result);
-                    }
+            this.pool!.execute(sql, values, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
                 }
-            )
+            })
         })
     }
 }

@@ -22,6 +22,7 @@ export default class UserController {
 
         const username = req.body["username"];
         const password = req.body["password"];
+        const nickname = req.body["nickname"];
         try {
             await UserService.addUser(username, password);
             R.success("注册成功!", (body: any) => res.send(body));
@@ -32,6 +33,7 @@ export default class UserController {
                 R.failed("无效的用户名或密码", (body: any) => res.send(body));
             }
             else {
+                logger.error(error);
                 R.error("服务器错误", (body: any) => res.send(body));
                 throw error;
             }

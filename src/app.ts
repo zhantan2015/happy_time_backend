@@ -1,7 +1,8 @@
 import { logger } from "@zhantan2015/utils";
 
 import express from "express";
-import cors from 'cors'
+import cors from 'cors';
+import fileUpload from "express-fileupload";
 import type { Request, Response } from "express"
 import userRouter from "./router/userRouter";
 
@@ -14,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (_: Request, res: Response) => { res.send(`<h1>HelloWorld!</h1>`) });
-app.use('/user', userRouter);
+app.use('/user', fileUpload({ limits: { fileSize: 50 * 1024 * 1024 } }), userRouter);
 
 
 app.listen(port, hostname, () => {
